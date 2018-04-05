@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme.NoActionBar"
+    android:fitsSystemWindows="true"
+    android:background="#EEEEEE"
+    tools:context="com.vp.player.video.videoplayer.ShareFiles">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/AppTheme.NoActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.NoActionBar" />
+    </android.support.design.widget.AppBarLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:layout_marginTop="55dp"
+        android:paddingHorizontal="0dp"
+        android:background="#EEEEEE"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout3">
+        <TextView
+            android:layout_width="73.6dp"
+            android:id="@+id/files"
+            android:textStyle="bold"
+            android:paddingVertical="8.5dp"
+            android:paddingHorizontal="20dp"
+            android:textColor="#1CAAC9"
+            android:onClick="fileloader"
+            android:background="#EEEEEE"
+            android:layout_height="match_parent"
+            android:text="Files"/>
+        <TextView
+            android:layout_width="73.6dp"
+            android:id="@+id/apps"
+            android:textStyle="bold"
+
+            android:paddingVertical="8.5dp"
+            android:paddingHorizontal="20dp"
+            android:background="#1CAAC9"
+            android:onClick="apploader"
+            android:textColor="#ffffff"
+            android:layout_height="match_parent"
+            android:text="Apps" />
+        <TextView
+            android:layout_width="73.6dp"
+            android:id="@+id/images"
+            android:textStyle="bold"
+
+            android:paddingVertical="8.5dp"
+            android:paddingHorizontal="10dp"
+            android:background="#1CAAC9"
+            android:onClick="imageloader"
+            android:textColor="#ffffff"
+            android:layout_height="match_parent"
+            android:text="Images"/>
+        <TextView
+            android:layout_width="73.6dp"
+            android:id="@+id/videos"
+            android:onClick="videoloader"
+
+            android:paddingVertical="8.5dp"
+            android:paddingHorizontal="10dp"
+            android:background="#1CAAC9"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:layout_height="match_parent"
+            android:text="Videos"/>
+        <TextView
+            android:layout_width="73.6dp"
+            android:id="@+id/music"
+            android:onClick="musicloader"
+
+            android:paddingVertical="8.5dp"
+            android:paddingHorizontal="10dp"
+            android:background="#1CAAC9"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:layout_height="match_parent"
+            android:text="Music"/>
+
+    </LinearLayout>
+
+
+    <include layout="@layout/content_main"
+        android:layout_below="@id/linearLayout3"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"/>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:layout_alignParentTop="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_home_footer">
+    </com.google.android.gms.ads.AdView>
+</RelativeLayout>

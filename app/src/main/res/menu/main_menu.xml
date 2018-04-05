@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group>
+        <item
+            android:id="@+id/share"
+            android:title="Share (via other apps)"
+            />
+        <item
+            android:id="@+id/lastplayed"
+            android:title="Last Played" />
+    </group>
+    <item
+        android:title="Youtube"
+        android:id="@+id/youtube"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/youtubeicon"
+        />
+    <item
+        android:id="@+id/mybutton"
+        android:title="Send files"
+        app:showAsAction="always"
+        />
+</menu>

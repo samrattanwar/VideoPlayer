@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Formeplayer</string>
+    <string name="admob_app_id">ca-app-pub-9362697259187932~3441184009</string>
+    <string name="banner_home_footer">ca-app-pub-9362697259187932/3987978914</string>
+    <string name="rewarded_video">ca-app-pub-9362697259187932/8698284076</string>
+    <string name="interstitial_full_screen">ca-app-pub-9362697259187932/4726345513</string>
+    <string name="gameHeader">My Game App</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_formar_player">FormarPlayer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="ok">OK</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_formar">FormarActivity</string>
+</resources>

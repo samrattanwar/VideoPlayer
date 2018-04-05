@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+def bType = "lazyLoad" //lazyLoad,full, blank is normal
+def version = "0.1.19"
+def ijkVersion = "0.8.8"
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+
+    defaultConfig {
+        buildConfigField 'boolean', 'lazyLoad', "" + ("lazyLoad" == bType)
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 29
+        versionName version + (bType == "" ? "" : "-") + bType
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.github.tcking:viewquery:1.6'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile "com.github.tcking:ijkplayer-java:${ijkVersion}"
+    compile 'com.google.android.gms:play-services-ads:11.8.0'
+
+
+    if ("" == bType) {
+        compile "com.github.tcking:ijkplayer-armv7a:${ijkVersion}"
+    } else if ("full" == bType) {
+        compile "com.github.tcking:ijkplayer-armv7a:${ijkVersion}-full"
+    }
+    compile project(path: ':SHAREthem')
+}
+apply from: new File(projectDir, "gradle-on-demand.gradle")
