@@ -16,6 +16,7 @@
 package com.tml.sharethem.receiver;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -116,7 +117,7 @@ public class ReceiverActivity extends AppCompatActivity {
             Toast.makeText(this, "Share mode is active, stop Share service to proceed with Receiving files", Toast.LENGTH_SHORT).show();
             return;
         }
-        ImageView rocketImage = (ImageView) findViewById(R.id.rev);
+        ImageView rocketImage =  findViewById(R.id.rev);
         rocketImage.setBackgroundResource(R.drawable.recieving);
         rocketAnimation = (AnimationDrawable) rocketImage.getBackground();
         rocketAnimation.start();
@@ -531,6 +532,7 @@ public class ReceiverActivity extends AppCompatActivity {
         ft.add(R.id.sender_files_list_fragment_holder, files_listing_fragment, TAG_SENDER_FILES_LISTING).commitAllowingStateLoss();
     }
 
+    @SuppressLint("StringFormatInvalid")
     private String[] setConnectedUi(String ssid) {
         String[] senderInfo = WifiUtils.getSenderInfoFromSSID(ssid);
         if (null == senderInfo || senderInfo.length != 2)

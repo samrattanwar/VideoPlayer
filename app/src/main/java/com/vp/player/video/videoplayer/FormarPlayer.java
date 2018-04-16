@@ -1,6 +1,7 @@
 package com.vp.player.video.videoplayer;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,31 +10,28 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
+import android.view.View;
 import android.widget.Toast;
 
 import com.tml.sharethem.sender.SHAREthemActivity;
 import com.tml.sharethem.sender.SHAREthemService;
+import com.vp.player.video.videoplayer.Adapter.ViewPagerAdapter;
 import com.vp.player.video.videoplayer.Fragments.FoldersFragment;
 import com.vp.player.video.videoplayer.Fragments.MoreFragment;
 import com.vp.player.video.videoplayer.Fragments.VideosFragment;
-import com.vp.player.video.videoplayer.Adapter.ViewPagerAdapter;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 
 public class FormarPlayer extends AppCompatActivity
@@ -44,6 +42,7 @@ public class FormarPlayer extends AppCompatActivity
     private ViewPagerAdapter viewPagerAdapter;
     private String[] arrayselect;
     private String[] arrayselect2;
+
     private static final int MY_PERMISSION_REQUEST = 1;
 
     @Override
@@ -54,6 +53,7 @@ public class FormarPlayer extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +62,9 @@ public class FormarPlayer extends AppCompatActivity
             }
         });
 
+
+        Intent stickyService = new Intent(this, StickyService.class);
+        startService(stickyService);
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
@@ -99,7 +102,8 @@ public class FormarPlayer extends AppCompatActivity
         }
     }
 
-    private FoldersFragment foldersFragment = new FoldersFragment();
+    public
+    FoldersFragment foldersFragment = new FoldersFragment();
     private VideosFragment videosFragment = new VideosFragment();
     private MoreFragment moreFragment = new MoreFragment();
 
@@ -112,15 +116,6 @@ public class FormarPlayer extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
@@ -151,13 +146,35 @@ public class FormarPlayer extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+            TabLayout.Tab tab = tabLayout.getTabAt(0);
+            tab.select();
+
             // Handle the camera action
         } else if (id == R.id.nav_more_features) {
 
         } else if (id == R.id.nav_share) {
+            String shareBody = "https://play.google.com/store/apps/details?" + "id=com.vp.player.video.videoplayer";
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                    "FormePlayer (Open it in Google Play Store to Download the Application)");
 
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(sharingIntent, "Share with"));
         } else if (id == R.id.nav_rate_us) {
-
+            Uri uri = Uri.parse("market://details?id=" + this.getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            // To count with Play market backstack, After pressing back button,
+            // to taken back to our application, we need to add following flags to intent.
+            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            try {
+                startActivity(goToMarket);
+            } catch (ActivityNotFoundException e) {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://play.google.com/store/apps/details?id=" + this.getPackageName())));
+            }
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -184,37 +201,7 @@ public class FormarPlayer extends AppCompatActivity
     }
 
     ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\\\
-    private void handleSendFiles(Intent intent) {
 
-        Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-        String to = imageUri.getPath();
-        if (imageUri != null) {
-//            String share = imageUri.toString();
-            Intent shareit = new Intent(getApplicationContext(), SHAREthemActivity.class);
-            intent.putExtra(SHAREthemService.EXTRA_FILE_PATHS, new String[]{to});
-            intent.putExtra(SHAREthemService.EXTRA_PORT, 52287);
-            intent.putExtra(SHAREthemService.EXTRA_SENDER_NAME, "Sri");
-            startActivity(shareit);
-        }
-
-    }
-
-    public void handleSendMultipleFiles(Intent intent) {
-
-        ArrayList<Uri> imageUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-
-        if (imageUris != null) {
-            arrayselect = new String[imageUris.size()];
-            arrayselect = imageUris.toArray(arrayselect2);
-            if (arrayselect2.length > 0) {
-                Intent shareit = new Intent(getApplicationContext(), SHAREthemActivity.class);
-                intent.putExtra(SHAREthemService.EXTRA_FILE_PATHS, arrayselect2);
-                intent.putExtra(SHAREthemService.EXTRA_PORT, 52287);
-                intent.putExtra(SHAREthemService.EXTRA_SENDER_NAME, "Sri");
-                startActivity(shareit);
-            }
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -233,4 +220,69 @@ public class FormarPlayer extends AppCompatActivity
             }
         }
     }
+
+    private void handleSendFiles(Intent intent) {
+
+        //Uri uri = ShareCompat.IntentReader.from(this).getStream();
+        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        String to = imageUri.getPath();
+      /* try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+
+
+            Toast.makeText(this, to, Toast.LENGTH_LONG).show();
+       } catch (FileNotFoundException e) {
+            e.printStackTrace();*/
+        //Toast.makeText(this, to, Toast.LENGTH_SHORT).show();
+        //   }
+        if (imageUri != null) {
+            String share = imageUri.toString();
+            Intent shareit = new Intent(getApplicationContext(), SHAREthemActivity.class);
+            intent.putExtra(SHAREthemService.EXTRA_FILE_PATHS, new String[]{to});
+            intent.putExtra(SHAREthemService.EXTRA_PORT, 52287);
+            intent.putExtra(SHAREthemService.EXTRA_SENDER_NAME, "Sri");
+            startActivity(shareit);
+        }
+
+    }
+
+    private void handleSendMultipleFiles(Intent intent) {
+
+        ArrayList<Uri> imageUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+
+        if (imageUris != null) {
+            arrayselect = new String[imageUris.size()];
+            arrayselect = imageUris.toArray(arrayselect2);
+            if (arrayselect2.length > 0) {
+                Intent shareit = new Intent(getApplicationContext(), SHAREthemActivity.class);
+                intent.putExtra(SHAREthemService.EXTRA_FILE_PATHS, arrayselect2);
+                intent.putExtra(SHAREthemService.EXTRA_PORT, 52287);
+                intent.putExtra(SHAREthemService.EXTRA_SENDER_NAME, "Sri");
+                startActivity(shareit);
+        /*        if(!listselect.isEmpty()){
+                arrayselect = new String[listselect.size()];
+                arrayselect = listselect.toArray(arrayselect);
+
+                if (arrayselect.length>0) {
+                    Intent intent = new Intent(getApplicationContext(), SHAREthemActivity.class);
+                    intent.putExtra(SHAREthemService.EXTRA_FILE_PATHS, arrayselect); // mandatory
+                    intent.putExtra(SHAREthemService.EXTRA_PORT, 52287); //optional but preferred
+                    intent.putExtra(SHAREthemService.EXTRA_SENDER_NAME, "Video Player"); //optional
+                    startActivity(intent);
+
+                */
+            }
+        }
+    }
+
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            finish();
+//        }
+//
+//    }
 }

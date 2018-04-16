@@ -672,4 +672,14 @@ public class MyApp extends Application {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
+
+    public static float getDisplayMatrix(Context c) {
+//        WindowManager wm = (WindowManager) ctx
+//                .getSystemService(Context.WINDOW_SERVICE);
+//        Display display = wm.getDefaultDisplay();
+//        Point size = new Point();
+//        display.getSize(size);
+//        int width = size.x;
+        return c.getResources().getDisplayMetrics().density;
+    }
 }

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SHAREthem/SHAREthem.iml" filepath="$PROJECT_DIR$/SHAREthem/SHAREthem.iml" />
       <module fileurl="file://$PROJECT_DIR$/VideoPlayer.iml" filepath="$PROJECT_DIR$/VideoPlayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/VideoPlayerGit.iml" filepath="$PROJECT_DIR$/.idea/VideoPlayerGit.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/giraffeplayer2/giraffeplayer2.iml" filepath="$PROJECT_DIR$/giraffeplayer2/giraffeplayer2.iml" />
     </modules>

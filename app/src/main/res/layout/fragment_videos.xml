@@ -2,14 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.vp.player.video.videoplayer.Fragments.VideosFragment">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_videos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp"
-        android:id="@+id/recyclerview"
-        >
+        android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
 </FrameLayout>

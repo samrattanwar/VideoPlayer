@@ -1,0 +1,77 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:layout_marginTop="5dp"
+    android:paddingTop="5dp"
+    android:theme="@style/AppTheme.NoActionBar">
+
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:adjustViewBounds="true"
+        android:background="@drawable/box_square"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageview"
+        android:layout_alignRight="@+id/imageview"
+        android:background="@android:color/black"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:text=""
+        android:textColor="#fff"
+        android:textSize="12dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/imageview"
+        android:layout_toLeftOf="@+id/img_selection"
+        android:layout_toRightOf="@+id/imageview"
+        android:paddingLeft="10dp"
+        android:paddingRight="3dp"
+        android:paddingVertical="2.7dp"
+        android:text="Marshmallow"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textSize="15dp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/img_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageview"
+        android:layout_marginTop="-5dp"
+        android:layout_toRightOf="@+id/imageview"
+        android:padding="5dp"
+        android:src="@drawable/checkmark_icon" />
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/imageview"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/imageview"
+        android:text="Android 6.0"
+        android:textColor="#EEEEEE"
+        android:textSize="0dp"
+        android:visibility="gone" />
+
+
+</RelativeLayout>
+

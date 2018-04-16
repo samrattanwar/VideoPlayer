@@ -1,5 +1,6 @@
 package com.vp.player.video.videoplayer;
 
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,12 +13,37 @@ public class DataModel2 implements Parcelable {
     String location;
     String version_number;
     String duration;
+    Drawable drawable;
+    boolean isSelected = false;
+    int counter = 0;
 
+    public int getCounter() {
+        return counter;
+    }
 
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public Drawable getDrawable() {
+        return drawable;
+    }
+
+    public void setDrawable(Drawable drawable) {
+        this.drawable = drawable;
+    }
 
     public DataModel2(String name, String location, String duration) {
-        this.name=name;
-        this.location=location;
+        this.name = name;
+        this.location = location;
         this.duration = duration;
     }
 

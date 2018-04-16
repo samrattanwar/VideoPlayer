@@ -68,7 +68,6 @@
             android:layout_width="73.6dp"
             android:id="@+id/videos"
             android:onClick="videoloader"
-
             android:paddingVertical="8.5dp"
             android:paddingHorizontal="10dp"
             android:background="#1CAAC9"

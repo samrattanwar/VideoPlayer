@@ -4,8 +4,8 @@ def version = "0.1.19"
 def ijkVersion = "0.8.8"
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         buildConfigField 'boolean', 'lazyLoad', "" + ("lazyLoad" == bType)
@@ -30,8 +30,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile "com.github.tcking:ijkplayer-java:${ijkVersion}"
     compile 'com.google.android.gms:play-services-ads:11.8.0'
-
-
     if ("" == bType) {
         compile "com.github.tcking:ijkplayer-armv7a:${ijkVersion}"
     } else if ("full" == bType) {

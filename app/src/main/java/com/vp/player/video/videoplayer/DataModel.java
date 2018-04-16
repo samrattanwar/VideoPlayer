@@ -9,12 +9,19 @@ public class DataModel {
     String location;
     String version_number;
     String duration;
+    int fileCounter;
 
+    public int getFileCounter() {
+        return fileCounter;
+    }
 
+    public void setFileCounter(int fileCounter) {
+        this.fileCounter = fileCounter;
+    }
 
     public DataModel(String name, String location, String duration) {
-        this.name=name;
-        this.location=location;
+        this.name = name;
+        this.location = location;
         this.duration = duration;
     }
 

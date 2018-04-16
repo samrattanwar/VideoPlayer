@@ -15,6 +15,7 @@
  */
 package com.tml.sharethem.sender;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -385,6 +386,7 @@ public class SHAREthemActivity extends AppCompatActivity {
     /**
      * Updates Hotspot configuration info like Name, IP if enabled.<br> Posts a message to {@link ShareUIHandler} to call itself every 1500ms
      */
+    @SuppressLint("StringFormatInvalid")
     private void updateApStatus() {
         if (!HotspotControl.isSupported()) {
             m_sender_wifi_info.setText("Warning: Hotspot mode not supported!\n");

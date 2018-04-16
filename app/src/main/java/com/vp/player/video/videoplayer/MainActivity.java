@@ -1,4 +1,5 @@
 package com.vp.player.video.videoplayer;
+
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -120,24 +121,24 @@ public class MainActivity extends AppCompatActivity {
         String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
-           // if ("text/plain".equals(type)) {
-                handleSendFiles(intent); // Handle text being sent
+            // if ("text/plain".equals(type)) {
+            handleSendFiles(intent); // Handle text being sent
             //} else if (type.startsWith("image/")) {
-           // }
+            // }
         } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
-           // if (type.startsWith("image/")) {
-                handleSendMultipleFiles(intent); // Handle multiple images being sent
-            }
+            // if (type.startsWith("image/")) {
+            handleSendMultipleFiles(intent); // Handle multiple images being sent
+        }
 
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)){
-                ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
             } else {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
             }
         } else {
-            if(refresh == null){
-                path =  dir.getAbsolutePath();
+            if (refresh == null) {
+                path = dir.getAbsolutePath();
             }
 
             doStuff();
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onAdFailedToLoad(int errorCode) {
-               // Toast.makeText(getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -201,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAdView.loadAd(adRequest);
     }
+
     private void showInterstitial() {
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
@@ -210,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        SharedPreferences playlist = getApplicationContext().getSharedPreferences("playlist",Context.MODE_PRIVATE);
+        SharedPreferences playlist = getApplicationContext().getSharedPreferences("playlist", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = playlist.edit();
         editor.clear();
         editor.commit();
@@ -235,8 +237,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
-        if(mRewardedVideoAd != null)
-        mRewardedVideoAd.pause(this);
+        if (mRewardedVideoAd != null)
+            mRewardedVideoAd.pause(this);
 
         if (mAdView != null) {
             mAdView.pause();
@@ -250,7 +252,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
 
-        if(mRewardedVideoAd != null){mRewardedVideoAd.resume(this);
+        if (mRewardedVideoAd != null) {
+            mRewardedVideoAd.resume(this);
         }
 
         if (mAdView != null) {
@@ -261,11 +264,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        SharedPreferences playlist = getApplicationContext().getSharedPreferences("playlist",Context.MODE_PRIVATE);
+        SharedPreferences playlist = getApplicationContext().getSharedPreferences("playlist", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = playlist.edit();
         editor.clear();
         editor.commit();
-        if(mRewardedVideoAd != null){
+        if (mRewardedVideoAd != null) {
             mRewardedVideoAd.destroy(this);
         }
         if (mAdView != null) {
@@ -273,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
+
     ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\\\
     private void handleSendFiles(Intent intent) {
 
@@ -287,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
        } catch (FileNotFoundException e) {
             e.printStackTrace();*/
         //Toast.makeText(this, to, Toast.LENGTH_SHORT).show();
-     //   }
+        //   }
         if (imageUri != null) {
             String share = imageUri.toString();
             Intent shareit = new Intent(getApplicationContext(), SHAREthemActivity.class);
@@ -306,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
         if (imageUris != null) {
             arrayselect = new String[imageUris.size()];
             arrayselect = imageUris.toArray(arrayselect2);
-            if(arrayselect2.length>0){
+            if (arrayselect2.length > 0) {
                 Intent shareit = new Intent(getApplicationContext(), SHAREthemActivity.class);
                 intent.putExtra(SHAREthemService.EXTRA_FILE_PATHS, arrayselect2);
                 intent.putExtra(SHAREthemService.EXTRA_PORT, 52287);
@@ -323,20 +327,22 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra(SHAREthemService.EXTRA_SENDER_NAME, "Video Player"); //optional
                     startActivity(intent);
 
-                */}}
+                */
+            }
         }
+    }
 
-  //  }
+    //  }
 
 
-    public void doStuff(){
-        if(refresh!=null){
+    public void doStuff() {
+        if (refresh != null) {
             path = refresh;
         }
-        listView=(ListView)findViewById(R.id.list);
-        arrayList= new ArrayList<>();
+        listView = (ListView) findViewById(R.id.list);
+        arrayList = new ArrayList<>();
         getMusic();
-        adapter= new CustomAdapter(arrayList,getApplicationContext());
+        adapter = new CustomAdapter(arrayList, getApplicationContext());
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(adapter);
 
@@ -349,10 +355,10 @@ public class MainActivity extends AppCompatActivity {
                 uril = c.getText().toString();
                 title = name.getText().toString();
                 File file = new File(uril);
-                if(isVideo(file)) {
+                if (isVideo(file)) {
                     SharedPreferences playlist = getApplicationContext().getSharedPreferences("playlist", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editory = playlist.edit();
-                    int currenttrack = listView.getPositionForView(view)+1;
+                    int currenttrack = listView.getPositionForView(view) + 1;
                     editory.putInt("current", currenttrack);
                     editory.apply();
                     SharedPreferences.Editor editor = preferences.edit();
@@ -368,11 +374,11 @@ public class MainActivity extends AppCompatActivity {
                             .setPortraitWhenFullScreen(true);//portrait when full screen
 
                     GiraffePlayer.play(getApplicationContext(), videoInfo);
-                } else if(file.isDirectory()){
+                } else if (file.isDirectory()) {
                     refresh = uril;
                     doStuff();
-                    toolbar.setTitle("("+Integer.toString(arrayList.size())+")"+title);
-                 //   arrayList.clear();
+                    toolbar.setTitle("(" + Integer.toString(arrayList.size()) + ")" + title);
+                    //   arrayList.clear();
                 }
 
             }
@@ -388,19 +394,19 @@ public class MainActivity extends AppCompatActivity {
                 TextView name = (TextView) arg1.findViewById(R.id.name);
                 filelocation = c.getText().toString();
                 File file = new File(filelocation);
-                if(!file.isDirectory()){
-                    if(listselect.contains(filelocation)){
+                if (!file.isDirectory()) {
+                    if (listselect.contains(filelocation)) {
                         listselect.remove(filelocation);
                         name.setTextColor(Color.BLACK);
-                    }
-                    else {
+                    } else {
                         listselect.add(filelocation);
                         //arrayselect = new String[]{c.getText().toString()};
                         name.setTextColor(Color.parseColor("#3B86F3"));
-                    }}
-                else {
+                    }
+                } else {
                     Toast.makeText(getApplicationContext(), "Video Files Only", Toast.LENGTH_SHORT).show();
-                }return true;
+                }
+                return true;
             }
         });
 
@@ -413,63 +419,61 @@ public class MainActivity extends AppCompatActivity {
         return mimeType != null && mimeType.startsWith("video");
     }*/
 
-/*
-    public void addfiles(String direc){
-        file = new File(direc);
-        File list[] = file.listFiles();
-        for (int i = 0; i < list.length; i++) {
-            File  mFile = new File(file, list[i].getName());
-            File dirList[] = mFile.listFiles();
-            if(dirList == null) continue;
-            for (int j = 0; j < dirList.length; j++) {
-                if(isVideo(dirList[j])){
-                    String currentTitle  = list[i].getName();
-                    String currentLocation = list[i].getPath();
-                    String currentDuration = "dir";
-                    arrayList.add(new DataModel(currentTitle, currentLocation, currentDuration));
-                    break;
+    /*
+        public void addfiles(String direc){
+            file = new File(direc);
+            File list[] = file.listFiles();
+            for (int i = 0; i < list.length; i++) {
+                File  mFile = new File(file, list[i].getName());
+                File dirList[] = mFile.listFiles();
+                if(dirList == null) continue;
+                for (int j = 0; j < dirList.length; j++) {
+                    if(isVideo(dirList[j])){
+                        String currentTitle  = list[i].getName();
+                        String currentLocation = list[i].getPath();
+                        String currentDuration = "dir";
+                        arrayList.add(new DataModel(currentTitle, currentLocation, currentDuration));
+                        break;
+                    }
                 }
             }
         }
-    }
 
-    public void listAllDirectories(String patho) {
+        public void listAllDirectories(String patho) {
 
-        File tempfile = new File(patho);
-        File[] files = tempfile.listFiles();
+            File tempfile = new File(patho);
+            File[] files = tempfile.listFiles();
 
-        if (files != null) {
-            for (File checkFile : files) {
-                if (checkFile.isDirectory()) {
-                    allDirectories.add(checkFile.getName());
-                    listAllDirectories(checkFile.getAbsolutePath());
+            if (files != null) {
+                for (File checkFile : files) {
+                    if (checkFile.isDirectory()) {
+                        allDirectories.add(checkFile.getName());
+                        listAllDirectories(checkFile.getAbsolutePath());
+                    }
                 }
             }
         }
-    }
-*/
-    public void getMusic(){
+    */
+    public void getMusic() {
        /*  myList = new ArrayList<String>();
            path = "Internal storage/Pictures";
            addfiles(path);
 */
-       if(path == dir.getAbsolutePath() ){
-           loadVideoFolders();
-           myList.clear();
-       }
-       else {
-           loadVideoFiles();
-       }
+        if (path == dir.getAbsolutePath()) {
+            loadVideoFolders();
+            myList.clear();
+        } else {
+            loadVideoFiles();
+        }
 
 
-   }
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-    public void loadVideoFiles(){
+    public void loadVideoFiles() {
         File f = new File(path);
         File[] files = f.listFiles();
         for (File inFile : files) {
@@ -480,7 +484,7 @@ public class MainActivity extends AppCompatActivity {
                 arrayList.add(new DataModel(currentTitle, currentLocation, currentDuration));
 
             }*/
-            if(isVideo(inFile)) {
+            if (isVideo(inFile)) {
                 //MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                 String currentTitle = inFile.getName();
                 String currentLocation = inFile.getPath();
@@ -497,53 +501,54 @@ public class MainActivity extends AppCompatActivity {
         }
         //Toast.makeText(this, Integer.toString(arrayList.size()), Toast.LENGTH_SHORT).show();
     }
-    public void loadVideoFolders(){
-            ContentResolver contentResolver = getContentResolver();
-            Uri songUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-            Cursor songcursor = contentResolver.query(songUri, null, null, null, null, null);
-            if(songcursor != null && songcursor.moveToFirst()){
-                //int songTitle = songcursor.getColumnIndex(MediaStore.Video.Media.TITLE);
-                int songLocation = songcursor.getColumnIndex(MediaStore.Video.Media.DATA);
-                //int songDuration = songcursor.getColumnIndex(MediaStore.Video.Media.DURATION);
 
-                do{
-                    //String currentTitle = songcursor.getString(songTitle);
-                    String currentLocation = songcursor.getString(songLocation);
-                    //String currentDuration = songcursor.getString(songDuration);
+    public void loadVideoFolders() {
+        ContentResolver contentResolver = getContentResolver();
+        Uri songUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        Cursor songcursor = contentResolver.query(songUri, null, null, null, null, null);
+        if (songcursor != null && songcursor.moveToFirst()) {
+            //int songTitle = songcursor.getColumnIndex(MediaStore.Video.Media.TITLE);
+            int songLocation = songcursor.getColumnIndex(MediaStore.Video.Media.DATA);
+            //int songDuration = songcursor.getColumnIndex(MediaStore.Video.Media.DURATION);
 
-                    File f1 = new File(currentLocation);
-                    String remove = "/" + f1.getName();
-                    String newpath = currentLocation.replace(remove,"");
-                    File f2 = new File(newpath);
+            do {
+                //String currentTitle = songcursor.getString(songTitle);
+                String currentLocation = songcursor.getString(songLocation);
+                //String currentDuration = songcursor.getString(songDuration);
 
-                    String foldertitle = f2.getName();
-                    String folderdir = f2.getPath();
-                    String foldertype = "";
+                File f1 = new File(currentLocation);
+                String remove = "/" + f1.getName();
+                String newpath = currentLocation.replace(remove, "");
+                File f2 = new File(newpath);
 
-                    //myList.add("string");
+                String foldertitle = f2.getName();
+                String folderdir = f2.getPath();
+                String foldertype = "";
 
-                    dataModel = new DataModel(foldertitle, folderdir, foldertype);
-                    if(!myList.contains(folderdir)) {
-                        arrayList.add(dataModel);
-                        myList.add(folderdir);
-                    }
-                    //test = currentLocation;
-                }while (songcursor.moveToNext());
-            }
-    }
-    public boolean isVideo(File inFile){
-        if (inFile.toString().toLowerCase().endsWith(".mp4")
-                ||inFile.toString().toLowerCase().endsWith(".avi")
-                ||inFile.toString().toLowerCase().endsWith(".mpeg4")
-                ||inFile.toString().toLowerCase().endsWith(".mpg")
-              //  ||inFile.toString().toLowerCase().endsWith(".gif")
-                ||inFile.toString().toLowerCase().endsWith(".mpeg")
-                ||inFile.toString().toLowerCase().endsWith(".flv")
-                ||inFile.toString().toLowerCase().endsWith(".mkv")
-                ||inFile.toString().toLowerCase().endsWith(".mov")) {
-            return true;
+                //myList.add("string");
+
+                dataModel = new DataModel(foldertitle, folderdir, foldertype);
+                if (!myList.contains(folderdir)) {
+                    arrayList.add(dataModel);
+                    myList.add(folderdir);
+                }
+                //test = currentLocation;
+            } while (songcursor.moveToNext());
         }
-        else {
+    }
+
+    public boolean isVideo(File inFile) {
+        if (inFile.toString().toLowerCase().endsWith(".mp4")
+                || inFile.toString().toLowerCase().endsWith(".avi")
+                || inFile.toString().toLowerCase().endsWith(".mpeg4")
+                || inFile.toString().toLowerCase().endsWith(".mpg")
+                //  ||inFile.toString().toLowerCase().endsWith(".gif")
+                || inFile.toString().toLowerCase().endsWith(".mpeg")
+                || inFile.toString().toLowerCase().endsWith(".flv")
+                || inFile.toString().toLowerCase().endsWith(".mkv")
+                || inFile.toString().toLowerCase().endsWith(".mov")) {
+            return true;
+        } else {
             return false;
         }
     }
@@ -554,14 +559,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case MY_PERMISSION_REQUEST: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
                         doStuff();
                     }
-                }else {
+                } else {
                     Toast.makeText(this, "Permission Not Granted", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -584,17 +589,17 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), SHAREthemActivity.class));
                     return true;
                 }
-                if(!listselect.isEmpty()){
+                if (!listselect.isEmpty()) {
                     arrayselect = new String[listselect.size()];
                     arrayselect = listselect.toArray(arrayselect);
 
-                    if (arrayselect.length>1) {
-                        Toast.makeText(this, "Please select only 1 item", Toast.LENGTH_SHORT).show();}
-                        else if(arrayselect.length>0){
+                    if (arrayselect.length > 1) {
+                        Toast.makeText(this, "Please select only 1 item", Toast.LENGTH_SHORT).show();
+                    } else if (arrayselect.length > 0) {
                         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                         sharingIntent.setType("video/*");
                         //Toast.makeText(this, arrayselect[0], Toast.LENGTH_SHORT).show();
-                        sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(arrayselect[0]) );
+                        sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(arrayselect[0]));
                         startActivity(Intent.createChooser(sharingIntent, "Shearing Option"));
                         return true;
 
@@ -614,15 +619,17 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra(SHAREthemService.EXTRA_SENDER_NAME, "Video Player"); //optional
                     startActivity(intent);
 
-                */}} else
-                    Toast.makeText(getApplicationContext(),"No Items Selected", Toast.LENGTH_SHORT).show();
+                */
+                    }
+                } else
+                    Toast.makeText(getApplicationContext(), "No Items Selected", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.lastplayed: {
                 //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
                 String pathy = preferences.getString("Name", uril);
-                if(pathy!=null) {
+                if (pathy != null) {
                     videoInfo = new VideoInfo(Uri.parse(pathy))
                             .setShowTopBar(true) //show mediacontroller top bar
                             .setBgColor(Color.BLACK)
@@ -630,17 +637,17 @@ public class MainActivity extends AppCompatActivity {
                             .setAspectRatio(0)
                             .setPortraitWhenFullScreen(true);//portrait when full screen
                     GiraffePlayer.play(getApplicationContext(), videoInfo);
-                }else
-                    Toast.makeText(getApplicationContext(),"No last played video", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(getApplicationContext(), "No last played video", Toast.LENGTH_SHORT).show();
 
-              break;
+                break;
             }
-            case R.id.mybutton:{
+            case R.id.mybutton: {
                 Intent intent = new Intent(getApplicationContext(), ShareFiles.class);
                 startActivity(intent);
                 break;
             }
-            case R.id.youtube:{
+            case R.id.youtube: {
 
                 mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(MainActivity.this);
 
@@ -648,14 +655,14 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onRewarded(RewardItem rewardItem) {
-                       // Toast.makeText(MainActivity.this, "onRewarded! currency: " + rewardItem.getType() + "  amount: " +
-                               // rewardItem.getAmount(), Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(MainActivity.this, "onRewarded! currency: " + rewardItem.getType() + "  amount: " +
+                        // rewardItem.getAmount(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onRewardedVideoAdLeftApplication() {
-                       // Toast.makeText(MainActivity.this, "onRewardedVideoAdLeftApplication",
-                               // Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(MainActivity.this, "onRewardedVideoAdLeftApplication",
+                        // Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -665,22 +672,22 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onRewardedVideoAdFailedToLoad(int errorCode) {
-                       // Toast.makeText(MainActivity.this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(MainActivity.this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
                     }//
 
                     @Override
                     public void onRewardedVideoAdLoaded() {
-                       // Toast.makeText(MainActivity.this, "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(MainActivity.this, "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onRewardedVideoAdOpened() {
-                       // Toast.makeText(MainActivity.this, "onRewardedVideoAdOpened", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(MainActivity.this, "onRewardedVideoAdOpened", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onRewardedVideoStarted() {
-                       // Toast.makeText(MainActivity.this, "onRewardedVideoStarted", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(MainActivity.this, "onRewardedVideoStarted", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -710,15 +717,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         getsharedvideo();
-        SharedPreferences playlist = getApplicationContext().getSharedPreferences("playlist",Context.MODE_PRIVATE);
+        SharedPreferences playlist = getApplicationContext().getSharedPreferences("playlist", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = playlist.edit();
         editor.clear();
         editor.commit();
     }
 
 
-
-    public void getsharedvideo(){
+    public void getsharedvideo() {
 
         String[] shared = new String[1];
         SharedPreferences sharepref = getApplicationContext().getSharedPreferences("Sharing", Context.MODE_PRIVATE);
@@ -743,10 +749,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(path ==  dir.getAbsolutePath()){
+        if (path == dir.getAbsolutePath()) {
             finish();
-        }
-        else {
+        } else {
             refresh = dir.getAbsolutePath();
             toolbar.setTitle("Folders");
             doStuff();

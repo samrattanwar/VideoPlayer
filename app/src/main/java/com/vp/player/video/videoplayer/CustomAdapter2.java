@@ -166,10 +166,18 @@ public class CustomAdapter2 extends ArrayAdapter<DataModel2> implements View.OnC
 
         }else if(mainActivity.isApp(f)){
             //Drawable icon = getPackageManager().getApplicationIcon("ur_package");
-            Glide
-                    .with(mContext)
-                    .load(R.drawable.androidicon)
-                    .into(viewHolder.thumb);
+           try{
+               Glide
+                       .with(mContext)
+
+                       .load(dataModel.getDrawable())
+                       .into(viewHolder.thumb);
+           }catch (Exception e){
+               Glide
+                       .with(mContext)
+                       .load(R.drawable.androidicon)
+                       .into(viewHolder.thumb);
+           }
         }
         else{
             Glide

@@ -30,7 +30,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="my.package.action.SHARE_FILES" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="my.package" />
             </intent-filter>
@@ -60,6 +59,37 @@
 
         <activity
             android:name=".FormarPlayer"
+            android:label="@string/title_activity_formar_player"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="my.package.action.SHARE_FILES" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="my.package" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="file" />
+            </intent-filter>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+
+        </activity>
+
+        <activity
+            android:name=".SplashActivity"
             android:label="@string/title_activity_formar_player"
             android:theme="@style/AppTheme">
             <intent-filter>
