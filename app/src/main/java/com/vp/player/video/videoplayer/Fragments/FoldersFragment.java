@@ -16,7 +16,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,15 +23,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tml.sharethem.sender.SHAREthemActivity;
 import com.tml.sharethem.sender.SHAREthemService;
 import com.vp.player.video.videoplayer.CustomAdapter;
 import com.vp.player.video.videoplayer.DataModel;
-import com.vp.player.video.videoplayer.FormarPlayer;
 import com.vp.player.video.videoplayer.R;
 import com.vp.player.video.videoplayer.StickyService;
+import com.vp.player.video.videoplayer.VideoPlayerActivity;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -166,19 +164,18 @@ public class FoldersFragment extends Fragment {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("lastplayed", uril);
                     editor.apply();
-
-                    videoInfo = new VideoInfo(Uri.parse(uril))
-                            .setShowTopBar(true) //show mediacontroller top bar
-                            .setBgColor(Color.BLACK)
-                            .setTitle(title)
-//                                .setAspectRatio(0)
-                            .setFullScreenAnimation(true)
-                            .setPortraitWhenFullScreen(true)
-                            .setShowTopBar(true)
-                            .setRetryInterval(r)
-                            .setPortraitWhenFullScreen(true);//portrait when full screen
-
-                    GiraffePlayer.play(getActivity(), videoInfo);
+                    startActivity(new Intent(getContext(), VideoPlayerActivity.class).putExtra("path", uril));
+//                    videoInfo = new VideoInfo(Uri.parse(uril))
+//                            .setShowTopBar(true) //show mediacontroller top bar
+//                            .setBgColor(Color.BLACK)
+//                            .setTitle(title)
+////                                .setAspectRatio(0)
+//                            .setFullScreenAnimation(true)
+//                            .setPortraitWhenFullScreen(true)
+//                            .setShowTopBar(true)
+//                            .setRetryInterval(r)
+//                            .setPortraitWhenFullScreen(true);//portrait when full screen
+//                    GiraffePlayer.play(getActivity(), videoInfo);
                 } else if (file.isDirectory()) {
                     isBackPressed = false;
                     refresh = uril;

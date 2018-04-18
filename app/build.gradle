@@ -37,7 +37,12 @@ dependencies {
     implementation 'com.github.angads25:filepicker:1.0.6'
     implementation files('libs/glide-full-4.4.0.jar')
     implementation project(':giraffeplayer2')
+//    implementation project(':app')
     implementation 'com.google.android.gms:play-services-ads:11.8.0'
-    implementation 'com.github.halilozercan:BetterVideoPlayer:1.1.0'
+//    implementation 'com.github.halilozercan:BetterVideoPlayer:1.1.0'
     implementation 'com.github.adrielcafe:AndroidAudioConverter:0.0.8'
+    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+    implementation 'org.adw.library:discrete-seekbar:1.0.1'
+    implementation 'com.devbrackets.android:exomedia:3.0.1'
+    compile 'me.zhanghai.android.materialprogressbar:library:1.1.6'
 }

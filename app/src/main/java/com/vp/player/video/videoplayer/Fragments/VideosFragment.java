@@ -79,16 +79,16 @@ public class VideosFragment extends Fragment {
         editor.putString("lastplayed", uril);
         editor.apply();
 
-//        startActivity(new Intent(getContext(), VideoPlayerActivity.class).putExtra("path", uril));
-        videoInfo = new VideoInfo(Uri.parse(uril))
-                .setShowTopBar(true) //show mediacontroller top bar
-                .setBgColor(Color.BLACK)
-                .setTitle(title)
-                .setAspectRatio(0)
-                .setRetryInterval(r)
-                .setPortraitWhenFullScreen(true);//portrait when full screen
-
-        GiraffePlayer.play(getActivity(), videoInfo);
+        startActivity(new Intent(getContext(), VideoPlayerActivity.class).putExtra("path", uril));
+//        videoInfo = new VideoInfo(Uri.parse(uril))
+//                .setShowTopBar(true) //show mediacontroller top bar
+//                .setBgColor(Color.BLACK)
+//                .setTitle(title)
+//                .setAspectRatio(0)
+//                .setRetryInterval(r)
+//                .setPortraitWhenFullScreen(true);//portrait when full screen
+//
+//        GiraffePlayer.play(getActivity(), videoInfo);
 
     }
 

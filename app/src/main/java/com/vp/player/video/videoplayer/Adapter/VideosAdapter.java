@@ -64,13 +64,17 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
         } catch (Exception e) {
             holder.txt_title.setText("No Name");
         }
-        holder.txt_time.setText(MyApp.milliSecondsToTimer(current.getDuration()));
-        Glide.with(context)
-                .asBitmap()
-                .load(Uri.fromFile(new File(current.getLocation())))
-                //.thumbnail(0.1f)
-                //                .apply(requestOptions)
-                .into(holder.imageview);
+        try {
+            holder.txt_time.setText(MyApp.milliSecondsToTimer(current.getDuration()));
+            Glide.with(context)
+                    .asBitmap()
+                    .load(Uri.fromFile(new File(current.getLocation())))
+                    //.thumbnail(0.1f)
+                    //                .apply(requestOptions)
+                    .into(holder.imageview);
+        } catch (Exception e) {
+        }
+
     }
 
     @Override
@@ -135,7 +139,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
                             List<String> filesToSend = new ArrayList<>();
                             filesToSend.add(data.get(getLayoutPosition()).getLocation());
 
-                            for(String path : filesToSend /* List of the files you want to send */) {
+                            for (String path : filesToSend /* List of the files you want to send */) {
                                 File file = new File(path);
                                 Uri uri = Uri.fromFile(file);
                                 files.add(uri);

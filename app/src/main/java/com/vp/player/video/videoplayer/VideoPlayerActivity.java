@@ -6,8 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.halilibo.bettervideoplayer.BetterVideoCallback;
-import com.halilibo.bettervideoplayer.BetterVideoPlayer;
+
+import com.vp.player.video.videoplayer.BetterVideoPlayer.BetterVideoCallback;
+import com.vp.player.video.videoplayer.BetterVideoPlayer.BetterVideoPlayer;
 
 import java.io.File;
 
@@ -35,7 +36,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements BetterVide
         player.setSource(Uri.fromFile(new File(getIntent().getStringExtra("path"))));
         player.setAutoPlay(true);
         player.enableControls();
-        player.enableSwipeGestures();
+        player.enableSwipeGestures(this.getWindow());
     }
 
     @Override
