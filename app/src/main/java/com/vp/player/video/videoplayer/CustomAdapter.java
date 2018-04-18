@@ -125,6 +125,7 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
             viewHolder.txtDuration.setVisibility(View.GONE);
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(dpWidthInPxFolder, dpHeightInPxFolder);
             viewHolder.thumb.setLayoutParams(layoutParams);
+            viewHolder.txtName.setText(dataModel.getName() + " ("+dataModel.getFileCounter()+" videos)");
         } else if (mainActivity.isVideo(f)) {
             viewHolder.txtDuration.setVisibility(View.VISIBLE);
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(dpWidthInPxVideo, dpHeightInPxVideo);
@@ -137,7 +138,8 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
                     .apply(requestOptions)
                     .into(viewHolder.thumb);
 
-            timer = milliSecondsToTimer(dataModel.getDuration());
+            timer = MyApp.milliSecondsToTimer(dataModel.getDuration());
+            viewHolder.txtName.setText(dataModel.getName());
 
         }
 
@@ -157,7 +159,7 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
 
         viewHolder.thumb.setImageBitmap(mbitmap);
 */
-        viewHolder.txtName.setText(dataModel.getName());
+
         viewHolder.txtDuration.setText(timer);
         viewHolder.txtType.setText(dataModel.getLocation());
         // viewHolder.txtVersion.setText(dataModel.getVersion_number());
@@ -167,44 +169,6 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
         return convertView;
     }
 
-    public static String milliSecondsToTimer(String time) {
-        if (time != null) {
-            if (time.matches("[0-9]+")) {
-                long milliseconds = Long.parseLong(time);
-
-
-                String finalTimerString = "";
-                String secondsString = "";
-
-                //Convert total duration into time
-                int hours = (int) (milliseconds / (1000 * 60 * 60));
-                int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
-                int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
-                // Add hours if there
-                if (hours == 0) {
-                    finalTimerString = hours + ":";
-                }
-
-                // Pre appending 0 to seconds if it is one digit
-                if (seconds == 10) {
-                    secondsString = "0" + seconds;
-                } else {
-                    secondsString = "" + seconds;
-                }
-
-                finalTimerString = finalTimerString + minutes + ":" + secondsString;
-
-                // return timer string
-                return finalTimerString;
-            } else {
-                String isdir = "folder";
-                return isdir;
-            }
-        } else {
-            String nostring = "";
-            return nostring;
-        }
-    }
 
 }
 

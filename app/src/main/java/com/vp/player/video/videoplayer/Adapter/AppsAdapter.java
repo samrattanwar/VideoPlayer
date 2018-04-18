@@ -59,9 +59,9 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
         DataModel2 current = dataSet.get(position);
 
         if (current.isSelected()) {
-            holder.rl_main.setBackgroundColor(Color.parseColor("#330C71E5"));
+            holder.img_selection.setImageResource(R.drawable.checkmark_icon);
         } else {
-            holder.rl_main.setBackgroundColor(Color.WHITE);
+            holder.img_selection.setImageResource(R.drawable.checkmark_unfilled);
         }
 
         holder.txtName.setText(current.getName());
@@ -78,7 +78,7 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView txtName;
         TextView txtType;
-        ImageView thumb;
+        ImageView thumb,img_selection;
         RelativeLayout rl_main;
 
         public MyViewHolder(View itemView) {
@@ -87,12 +87,13 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
             txtType = itemView.findViewById(R.id.type);
             thumb = itemView.findViewById(R.id.imageview);
             rl_main = itemView.findViewById(R.id.rl_main);
-            itemView.setOnClickListener(this);
+            img_selection = itemView.findViewById(R.id.img_selection);
+            img_selection.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            if (v == itemView) {
+            if (v == img_selection) {
                 if (dataSet.get(getLayoutPosition()).isSelected()) {
                     dataSet.get(getLayoutPosition()).setSelected(false);
                 } else {

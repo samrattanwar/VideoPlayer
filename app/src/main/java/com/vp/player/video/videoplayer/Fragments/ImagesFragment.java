@@ -224,8 +224,13 @@ public class ImagesFragment extends Fragment {
                                 String currentLocation = listFile[i].getPath();
                                 String currentDuration = "10";
 
+                                DataModel2 d = new DataModel2(currentTitle, currentLocation, currentDuration);
 //                                retriever.release();
-                                arrayList.add(new DataModel2(currentTitle, currentLocation, currentDuration));
+                                try {
+                                    d.isSelected();
+                                    arrayList.add(d);
+                                } catch (Exception e) {
+                                }
                             }
                         }
                     }

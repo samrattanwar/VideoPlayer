@@ -35,6 +35,7 @@ import com.vp.player.video.videoplayer.R;
 import com.vp.player.video.videoplayer.StickyService;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 
 import tcking.github.com.giraffeplayer2.GiraffePlayer;
@@ -148,46 +149,46 @@ public class FoldersFragment extends Fragment {
 
         }
 
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    TextView c = view.findViewById(R.id.type);
-                    TextView name = view.findViewById(R.id.name);
-                    uril = c.getText().toString();
-                    title = name.getText().toString();
-                    File file = new File(uril);
-                    if (isVideo(file)) {
-                        SharedPreferences playlist = getActivity().getSharedPreferences("playlist", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editory = playlist.edit();
-                        int currenttrack = listView.getPositionForView(view) + 1;
-                        editory.putInt("current", currenttrack);
-                        editory.apply();
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("lastplayed", uril);
-                        editor.apply();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView c = view.findViewById(R.id.type);
+                TextView name = view.findViewById(R.id.name);
+                uril = c.getText().toString();
+                title = name.getText().toString();
+                File file = new File(uril);
+                if (isVideo(file)) {
+                    SharedPreferences playlist = getActivity().getSharedPreferences("playlist", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editory = playlist.edit();
+                    int currenttrack = listView.getPositionForView(view) + 1;
+                    editory.putInt("current", currenttrack);
+                    editory.apply();
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("lastplayed", uril);
+                    editor.apply();
 
-                        videoInfo = new VideoInfo(Uri.parse(uril))
-                                .setShowTopBar(true) //show mediacontroller top bar
-                                .setBgColor(Color.BLACK)
-                                .setTitle(title)
+                    videoInfo = new VideoInfo(Uri.parse(uril))
+                            .setShowTopBar(true) //show mediacontroller top bar
+                            .setBgColor(Color.BLACK)
+                            .setTitle(title)
 //                                .setAspectRatio(0)
-                                .setFullScreenAnimation(true)
-                                .setPortraitWhenFullScreen(true)
-                                .setShowTopBar(true)
-                                .setRetryInterval(r)
-                                .setPortraitWhenFullScreen(true);//portrait when full screen
+                            .setFullScreenAnimation(true)
+                            .setPortraitWhenFullScreen(true)
+                            .setShowTopBar(true)
+                            .setRetryInterval(r)
+                            .setPortraitWhenFullScreen(true);//portrait when full screen
 
-                        GiraffePlayer.play(getActivity(), videoInfo);
-                    } else if (file.isDirectory()) {
-                        isBackPressed = false;
-                        refresh = uril;
-                        doStuff();
+                    GiraffePlayer.play(getActivity(), videoInfo);
+                } else if (file.isDirectory()) {
+                    isBackPressed = false;
+                    refresh = uril;
+                    doStuff();
 //                    toolbar.setTitle("(" + Integer.toString(arrayList.size()) + ")" + title);
-                        //   arrayList.clear();
-                    }
-
+                    //   arrayList.clear();
                 }
-            });
+
+            }
+        });
 
 
 //        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -252,7 +253,12 @@ public class FoldersFragment extends Fragment {
                         String remove = "/" + f1.getName();
                         String newpath = currentLocation.replace(remove, "");
                         File f2 = new File(newpath);
-
+                        int counter = f2.listFiles(new FileFilter() {
+                            @Override
+                            public boolean accept(File pathname) {
+                                return isVideo(pathname);
+                            }
+                        }).length;
                         String foldertitle = f2.getName();
                         String folderdir = f2.getPath();
                         String foldertype = "";
@@ -260,7 +266,7 @@ public class FoldersFragment extends Fragment {
                         //myList.add("string");
 
                         dataModel = new DataModel(foldertitle, folderdir, foldertype);
-//                        dataModel.setFileCounter(counter);
+                        dataModel.setFileCounter(counter);
                         if (!myList.contains(folderdir)) {
                             arrayList.add(dataModel);
                             myList.add(folderdir);
@@ -275,41 +281,6 @@ public class FoldersFragment extends Fragment {
                             listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                             listView.setAdapter(adapter);
 
-//                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                @Override
-//                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                                    TextView c = view.findViewById(R.id.type);
-//                                    TextView name = view.findViewById(R.id.name);
-//                                    uril = c.getText().toString();
-//                                    title = name.getText().toString();
-//                                    File file = new File(uril);
-//                                    if (isVideo(file)) {
-//                                        SharedPreferences playlist = getActivity().getSharedPreferences("playlist", Context.MODE_PRIVATE);
-//                                        SharedPreferences.Editor editory = playlist.edit();
-//                                        int currenttrack = listView.getPositionForView(view) + 1;
-//                                        editory.putInt("current", currenttrack);
-//                                        editory.apply();
-//                                        SharedPreferences.Editor editor = preferences.edit();
-//                                        editor.putString("lastplayed", uril);
-//                                        editor.apply();
-//
-//                                        videoInfo = new VideoInfo(Uri.parse(uril))
-//                                                .setShowTopBar(true) //show mediacontroller top bar
-//                                                .setBgColor(Color.BLACK)
-//                                                .setTitle(title)
-//                                                .setAspectRatio(0)
-//                                                .setRetryInterval(r)
-//                                                .setPortraitWhenFullScreen(true);//portrait when full screen
-//
-//                                        GiraffePlayer.play(getActivity(), videoInfo);
-//                                    } else if (file.isDirectory()) {
-//                                        doStuff();
-////                    toolbar.setTitle("(" + Integer.toString(arrayList.size()) + ")" + title);
-//                                        //   arrayList.clear();
-//                                    }
-//
-//                                }
-//                            });
                         }
                     });
                 }
@@ -363,41 +334,6 @@ public class FoldersFragment extends Fragment {
                             listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                             listView.setAdapter(adapter);
                             path = refresh;
-//                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                @Override
-//                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                                    TextView c = view.findViewById(R.id.type);
-//                                    TextView name = view.findViewById(R.id.name);
-//                                    uril = c.getText().toString();
-//                                    title = name.getText().toString();
-//                                    File file = new File(uril);
-//                                    if (isVideo(file)) {
-//                                        SharedPreferences playlist = getActivity().getSharedPreferences("playlist", Context.MODE_PRIVATE);
-//                                        SharedPreferences.Editor editory = playlist.edit();
-//                                        int currenttrack = listView.getPositionForView(view) + 1;
-//                                        editory.putInt("current", currenttrack);
-//                                        editory.apply();
-//                                        SharedPreferences.Editor editor = preferences.edit();
-//                                        editor.putString("lastplayed", uril);
-//                                        editor.apply();
-//
-//                                        videoInfo = new VideoInfo(Uri.parse(uril))
-//                                                .setShowTopBar(true) //show mediacontroller top bar
-//                                                .setBgColor(Color.BLACK)
-//                                                .setTitle(title)
-//                                                .setAspectRatio(0)
-//                                                .setRetryInterval(r)
-//                                                .setPortraitWhenFullScreen(true);//portrait when full screen
-//
-//                                        GiraffePlayer.play(getActivity(), videoInfo);
-//                                    } else if (file.isDirectory()) {
-//                                        doStuff();
-////                    toolbar.setTitle("(" + Integer.toString(arrayList.size()) + ")" + title);
-//                                        //   arrayList.clear();
-//                                    }
-//
-//                                }
-//                            });
                         }
 
 

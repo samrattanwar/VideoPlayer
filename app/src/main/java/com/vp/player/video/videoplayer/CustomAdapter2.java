@@ -185,7 +185,7 @@ public class CustomAdapter2 extends ArrayAdapter<DataModel2> implements View.OnC
                     .load(R.drawable.unknown)
                     .into(viewHolder.thumb);
         }
-        String timer = milliSecondsToTimer(dataModel.getDuration());
+        String timer = MyApp.milliSecondsToTimer(dataModel.getDuration());
 
         // if (!timer.equals("folder")) {
 
@@ -211,41 +211,6 @@ public class CustomAdapter2 extends ArrayAdapter<DataModel2> implements View.OnC
         return convertView;
     }
 
-    public static String milliSecondsToTimer(String time) {
-        if( time!=null ) {
-            if (time.matches("[0-9]+") && time.length() > 2) {
-                long milliseconds = Long.parseLong(time);
-
-
-                String finalTimerString = "";
-                String secondsString = "";
-
-                //Convert total duration into time
-                int hours = (int) (milliseconds / (1000 * 60 * 60));
-                int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
-                int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
-                // Add hours if there
-                if (hours == 0) {
-                    finalTimerString = hours + ":";
-                }
-
-                // Pre appending 0 to seconds if it is one digit
-                if (seconds == 10) {
-                    secondsString = "0" + seconds;
-                } else {
-                    secondsString = "" + seconds;
-                }
-
-                finalTimerString = finalTimerString + minutes + ":" + secondsString;
-
-                // return timer string
-                return finalTimerString;}
-        }else {
-            String nostring = "";
-            return nostring;
-        }
-        return "";
-    }
 
 }
 

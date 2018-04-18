@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.vp.player.video.videoplayer.DataModel2;
 import com.vp.player.video.videoplayer.Fragments.FilesFragment;
 import com.vp.player.video.videoplayer.Fragments.MusicFragment;
+import com.vp.player.video.videoplayer.MyApp;
 import com.vp.player.video.videoplayer.R;
 
 import java.io.File;
@@ -57,7 +58,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             holder.img_selection.setImageResource(R.drawable.checkmark_unfilled);
         }
         holder.txt_title.setText(current.getName());
-        holder.txt_time.setText(milliSecondsToTimer(current.getDuration()));
+        holder.txt_time.setText(MyApp.milliSecondsToTimer(current.getDuration()));
         File f = new File(current.getLocation());
         if (f.isDirectory()) {
             holder.img_selection.setVisibility(View.GONE);
@@ -113,42 +114,5 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         }
     }
 
-    public static String milliSecondsToTimer(String time) {
-        if (time != null) {
-            if (time.matches("[0-9]+")) {
-                long milliseconds = Long.parseLong(time);
 
-
-                String finalTimerString = "";
-                String secondsString = "";
-
-                //Convert total duration into time
-                int hours = (int) (milliseconds / (1000 * 60 * 60));
-                int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
-                int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
-                // Add hours if there
-                if (hours == 0) {
-                    finalTimerString = hours + ":";
-                }
-
-                // Pre appending 0 to seconds if it is one digit
-                if (seconds == 10) {
-                    secondsString = "0" + seconds;
-                } else {
-                    secondsString = "" + seconds;
-                }
-
-                finalTimerString = finalTimerString + minutes + ":" + secondsString;
-
-                // return timer string
-                return finalTimerString;
-            } else {
-                String isdir = "folder";
-                return isdir;
-            }
-        } else {
-            String nostring = "";
-            return nostring;
-        }
-    }
 }

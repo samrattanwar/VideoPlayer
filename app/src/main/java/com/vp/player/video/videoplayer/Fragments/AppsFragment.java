@@ -129,7 +129,14 @@ public class AppsFragment extends Fragment {
         File file = new File(data.getLocation());
         if (isApp(file)) {
             filelocation = data.getLocation();
-
+            filelocation = data.getLocation();
+                    if (!file.isDirectory()) {
+                        if (((ShareFiles1) getActivity()).listselect.contains(filelocation)) {
+                            ((ShareFiles1) getActivity()).listselect.remove(filelocation);
+                        } else {
+                            ((ShareFiles1) getActivity()).listselect.add(filelocation);
+                        }
+                    }
         } else if (file.isDirectory()) {
             refresh = uril;
             doAppStuff();

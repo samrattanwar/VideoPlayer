@@ -35,6 +35,8 @@ import android.widget.Toast;
 //import com.localfriend.model.Cartlist;
 //import com.localfriend.model.User;
 
+import com.google.android.gms.ads.MobileAds;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -55,6 +57,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
+import cafe.adriel.androidaudioconverter.callback.ILoadCallback;
 
 /**
  * Created by User on 1/2/2017.
@@ -96,6 +101,18 @@ public class MyApp extends Application {
         super.onCreate();
         ctx = getApplicationContext();
         myApplication = this;
+
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
+        AndroidAudioConverter.load(this, new ILoadCallback() {
+            @Override
+            public void onSuccess() {
+                // Great!
+            }
+            @Override
+            public void onFailure(Exception error) {
+                // FFmpeg is not supported by device
+            }
+        });
     }
 
     static Handler mHandler = new Handler();
@@ -681,5 +698,49 @@ public class MyApp extends Application {
 //        display.getSize(size);
 //        int width = size.x;
         return c.getResources().getDisplayMetrics().density;
+    }
+
+    public static String milliSecondsToTimer(String time) {
+        if (time != null) {
+            if (time.matches("[0-9]+")) {
+                long milliseconds = Long.parseLong(time);
+
+
+                String finalTimerString = "";
+                String secondsString = "";
+                String minsString = "";
+
+                //Convert total duration into time
+                int hours = (int) (milliseconds / (1000 * 60 * 60));
+                int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
+                int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+                // Add hours if there
+                if (hours > 0) {
+                    finalTimerString = "0"+hours + ":";
+                }
+
+                // Pre appending 0 to seconds if it is one digit
+                if ( minutes < 10) {
+                    minsString = "0" + minutes;
+                } else {
+                    minsString = "" + minutes;
+                } if (seconds < 10) {
+                    secondsString = "0" + seconds;
+                } else {
+                    secondsString = "" + seconds;
+                }
+
+                finalTimerString = finalTimerString + minsString + ":" + secondsString;
+
+                // return timer string
+                return finalTimerString;
+            } else {
+                String isdir = "folder";
+                return isdir;
+            }
+        } else {
+            String nostring = "";
+            return nostring;
+        }
     }
 }

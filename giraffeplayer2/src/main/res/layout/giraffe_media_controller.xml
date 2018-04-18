@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/app_video_cover"
-        android:scaleType="fitCenter"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,15 +16,15 @@
 
         <LinearLayout
             android:id="@+id/app_video_replay"
-            android:gravity="center"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
             <ImageView
                 android:id="@+id/app_video_replay_icon"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
         </LinearLayout>
 
         <FrameLayout
@@ -32,8 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:background="@drawable/app_video_center_bg"
-            android:visibility="visible"
-            >
+            android:visibility="visible">
             <!-- volume-->
             <LinearLayout
                 android:id="@+id/app_video_volume_box"
@@ -41,15 +41,14 @@
                 android:layout_height="80dp"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/app_video_volume_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_volume_up_white_36dp"/>
+                    android:src="@drawable/ic_volume_up_white_36dp" />
 
                 <TextView
                     android:id="@+id/app_video_volume"
@@ -57,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:text="50%"
                     android:textColor="@android:color/white"
-                    android:textSize="18dp"/>
+                    android:textSize="18dp" />
             </LinearLayout>
             <!-- brightness-->
             <LinearLayout
@@ -66,15 +65,14 @@
                 android:layout_height="80dp"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/app_video_brightness_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_brightness_6_white_36dp"/>
+                    android:src="@drawable/ic_brightness_6_white_36dp" />
 
                 <TextView
                     android:id="@+id/app_video_brightness"
@@ -84,7 +82,7 @@
                     android:paddingTop="8dp"
                     android:text="50%"
                     android:textColor="@android:color/white"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
             </LinearLayout>
             <!-- fast forward-->
             <LinearLayout
@@ -94,8 +92,7 @@
                 android:layout_margin="8dp"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/app_video_fastForward"
@@ -105,7 +102,7 @@
                     android:paddingTop="8dp"
                     android:text="50%"
                     android:textColor="@android:color/white"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -119,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:text="50%"
                         android:textColor="@android:color/white"
-                        android:textSize="16dp"/>
+                        android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/app_video_fastForward_all"
@@ -127,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:text="50%"
                         android:textColor="@color/Grey_300"
-                        android:textSize="16dp"/>
+                        android:textSize="16dp" />
 
                 </LinearLayout>
 
@@ -150,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/small_problem"
                 android:textColor="@android:color/white"
-                android:textSize="14dp"/>
+                android:textSize="14dp" />
         </LinearLayout>
 
         <!-- loading-->
@@ -159,85 +156,84 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerInParent="true"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/app_video_bottom_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:padding="8dp"
             android:background="#59000000"
+            android:padding="8dp"
             android:visibility="gone">
 
             <ImageView
                 android:id="@+id/app_video_play"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="4dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/app_video_endTime"
                 android:layout_centerHorizontal="true"
-                android:scaleType="fitCenter"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:src="@drawable/ic_play_arrow_white_24dp" />
+
             <ImageView
                 android:id="@+id/skip_next"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:scaleType="fitCenter"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="25dp"
-                android:src="@drawable/ic_skip_next"
-                android:layout_toRightOf="@id/app_video_play"
                 android:layout_toEndOf="@id/app_video_play"
-                />
+                android:layout_toRightOf="@id/app_video_play"
+                android:src="@drawable/ic_skip_next" />
+
             <ImageView
                 android:id="@+id/skip_previous"
-                android:layout_width="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="25dp"
-                android:scaleType="fitCenter"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_skip_previous"
                 android:layout_toLeftOf="@id/app_video_play"
                 android:layout_toStartOf="@id/app_video_play"
-                />
+                android:src="@drawable/ic_skip_previous" />
 
             <TextView
-                android:text=""
                 android:id="@+id/app_video_currentTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
+                android:text=""
                 android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:layout_marginStart="5dp"/>
+                android:textSize="12sp" />
 
             <SeekBar
                 android:id="@+id/app_video_seekBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:progressTint="#1CAAC9"
-                android:thumbTint="#1CAAC9"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
+                android:layout_toEndOf="@+id/app_video_currentTime"
                 android:layout_toLeftOf="@+id/app_video_endTime"
                 android:layout_toRightOf="@+id/app_video_currentTime"
                 android:layout_toStartOf="@+id/app_video_endTime"
-                android:layout_toEndOf="@+id/app_video_currentTime"/>
+                android:progressTint="#1CAAC9"
+                android:thumbTint="#1CAAC9" />
 
             <TextView
                 android:id="@+id/app_video_endTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
                 android:text=""
                 android:textColor="@android:color/white"
-                android:textSize="12dp"/>
+                android:textSize="12dp" />
 
             <ImageView
                 android:id="@+id/app_video_fullscreen"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="40dp"
@@ -248,144 +244,142 @@
 
 
             <ImageView
+                android:id="@+id/lock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lock"
-                android:padding="8dp"
-                android:layout_marginTop="29dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:src="@drawable/ic_lock"/>
+                android:layout_marginTop="29dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_lock" />
 
         </RelativeLayout>
 
         <TextView
-            android:visibility="gone"
-            android:textColor="#FFF"
             android:id="@+id/app_video_subtitle"
-            android:layout_above="@+id/app_video_bottom_box"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/app_video_bottom_box"
+            android:textColor="#FFF"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/app_video_top_box"
-        android:visibility="gone"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#59000000"
-        >
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
         <ImageView
             android:id="@+id/app_video_clarity"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
             android:layout_toLeftOf="@+id/dango"
             android:layout_toStartOf="@+id/dango"
             android:paddingLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_setting_white_24dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:paddingStart="8dp"/>
+            android:paddingStart="8dp"
+            android:src="@drawable/ic_setting_white_24dp" />
 
         <ImageView
             android:id="@+id/app_video_finish"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_chevron_left_white_36dp"/>
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_chevron_left_white_36dp" />
 
         <TextView
-            android:layout_centerInParent="true"
             android:id="@+id/app_video_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:padding="8dp"
+            android:singleLine="true"
             android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:singleLine="true"/>
+            android:textSize="12sp" />
+
         <ImageView
+            android:id="@+id/dango"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/dango"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:padding="8dp"
-            android:src="@drawable/ic_more_vert"
-            />
-
+            android:src="@drawable/ic_more_vert" />
 
 
     </RelativeLayout>
 
     <ImageView
-        android:visibility="gone"
-        android:layout_alignParentRight="true"
-        android:padding="3dp"
         android:id="@+id/app_video_float_close"
-        android:src="@drawable/ic_close_white_24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"/>
-
-    <ImageView
-        android:visibility="gone"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:padding="3dp"
-        android:id="@+id/app_video_float_full"
-        android:src="@drawable/ic_fullscreen_white_24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"/>
+        android:src="@drawable/ic_close_white_24dp"
+        android:visibility="gone" />
 
     <ImageView
+        android:id="@+id/app_video_float_full"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:padding="3dp"
+        android:src="@drawable/ic_fullscreen_white_24dp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/midplaypause"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/midplaypause"
-        android:layout_centerInParent="true"
-        />
+        android:layout_centerInParent="true" />
+
     <ImageView
+        android:id="@+id/unlock"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:id="@+id/unlock"
+        android:layout_alignParentTop="true"
         android:background="#59000000"
         android:src="@drawable/ic_lock"
-        android:visibility="gone"
-        android:layout_alignParentTop="true"
-        />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/resume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="#111"
         android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
-        android:textSize="15sp"
-        android:textColor="#fff"
-        android:textStyle="bold"
-        android:layout_marginTop="50dp"
         android:text="Click to Resume"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        android:background="#111"
-        android:layout_alignParentTop="true"/>
+        android:textColor="#fff"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="#111"
         android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
-        android:layout_marginTop="50dp"
-        android:textSize="15sp"
-        android:textColor="#fff"
-        android:textStyle="bold"
-        android:visibility="gone"
         android:text="Share"
-        android:background="#111"
-        android:layout_alignParentTop="true"/>
+        android:textColor="#fff"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </RelativeLayout>
