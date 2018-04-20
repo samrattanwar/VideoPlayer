@@ -106,6 +106,12 @@
             android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".VideoConverterActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

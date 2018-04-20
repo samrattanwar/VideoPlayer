@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,11 +38,13 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
     ArrayList<DataModel> data = new ArrayList<>();
     private LayoutInflater inflater;
     private Fragment context;
+    private SparseBooleanArray mSelectedItemsIds;
 
     public VideosAdapter(Fragment context, ArrayList<DataModel> data) {
         this.context = context;
         inflater = LayoutInflater.from(context.getContext());
         this.data = data;
+        mSelectedItemsIds = new SparseBooleanArray();
     }
 
     public void delete(int position) {
@@ -74,7 +77,13 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
                     .into(holder.imageview);
         } catch (Exception e) {
         }
+        if(mSelectedItemsIds.get(position)){
 
+            holder.ic_selected.setVisibility(View.VISIBLE);
+        }else {
+
+            holder.ic_selected.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -82,19 +91,21 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
         return data.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView imageview, btn_more;
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
+        ImageView imageview, btn_more,ic_selected;
         TextView txt_title;
         TextView txt_time;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            ic_selected = itemView.findViewById(R.id.ic_selected);
             imageview = itemView.findViewById(R.id.imageview);
             txt_title = itemView.findViewById(R.id.txt_title);
             txt_time = itemView.findViewById(R.id.txt_time);
             btn_more = itemView.findViewById(R.id.btn_more);
             btn_more.setImageResource(R.drawable.ic_overflow);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             btn_more.setOnClickListener(this);
         }
 
@@ -127,9 +138,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.nav_mp3) {
-                            ((VideosFragment) context).convertMp3(data.get(getLayoutPosition()));
-                        } else if (item.getItemId() == R.id.nav_share) {
+                         if (item.getItemId() == R.id.nav_share) {
                             Intent intent = new Intent();
                             intent.setAction(Intent.ACTION_SEND_MULTIPLE);
                             intent.putExtra(Intent.EXTRA_SUBJECT, "Here are some files.");
@@ -147,7 +156,12 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
 
                             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
                             context.getActivity().startActivity(intent);
-                        }
+                        } else if(item.getItemId() == R.id.nav_rename){
+                             ((VideosFragment)context).renameFile(getLayoutPosition(),data.get(getLayoutPosition()));
+                         }else if(item.getItemId() == R.id.nav_delete){
+                             ((VideosFragment)context).deleteFile(getLayoutPosition(),data.get(getLayoutPosition()));
+                         }
+
                         return true;
                     }
                 });
@@ -155,6 +169,49 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.MyViewHold
                 popup.show();
             }
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
+        }
+    }
+
+    /***
+     * Methods required for do selections, remove selections, etc.
+     */
+
+    //Toggle selection methods
+    public void toggleSelection(int position) {
+        selectView(position, !mSelectedItemsIds.get(position));
+    }
+
+
+    //Remove selected selections
+    public void removeSelection() {
+        ((VideosFragment)context).mActionMode = null;
+        mSelectedItemsIds = new SparseBooleanArray();
+        notifyDataSetChanged();
+    }
+
+
+    //Put or delete selected position into SparseBooleanArray
+    public void selectView(int position, boolean value) {
+        if (value)
+            mSelectedItemsIds.put(position, value);
+        else
+            mSelectedItemsIds.delete(position);
+
+        notifyDataSetChanged();
+    }
+
+    //Get total selected count
+    public int getSelectedCount() {
+        return mSelectedItemsIds.size();
+    }
+
+    //Return all selected ids
+    public SparseBooleanArray getSelectedIds() {
+        return mSelectedItemsIds;
     }
 
 

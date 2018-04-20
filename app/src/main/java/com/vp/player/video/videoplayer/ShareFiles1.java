@@ -245,6 +245,7 @@ public class ShareFiles1 extends AppCompatActivity {
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
+                mAdView.setVisibility(View.VISIBLE);
             }
 
             @Override

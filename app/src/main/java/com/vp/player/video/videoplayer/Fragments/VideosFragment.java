@@ -11,21 +11,33 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.vp.player.video.videoplayer.Adapter.VideosAdapter;
 import com.vp.player.video.videoplayer.DataModel;
+import com.vp.player.video.videoplayer.FormarPlayer;
 import com.vp.player.video.videoplayer.MyApp;
 import com.vp.player.video.videoplayer.R;
 import com.vp.player.video.videoplayer.VideoPlayerActivity;
+import com.vp.player.video.videoplayer.utils.RecyclerClick_Listener;
+import com.vp.player.video.videoplayer.utils.RecyclerTouchListener;
+import com.vp.player.video.videoplayer.utils.Toolbar_ActionMode_Callback;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
 import cafe.adriel.androidaudioconverter.callback.IConvertCallback;
@@ -45,6 +57,7 @@ public class VideosFragment extends Fragment {
     VideoInfo videoInfo;
     SharedPreferences preferences;
     int r = 0;
+    public ActionMode mActionMode;
 //    private TextView type, name;
 
     @Override
@@ -61,6 +74,7 @@ public class VideosFragment extends Fragment {
         getAllDir(Environment.getExternalStorageDirectory());
 //        type = myView.findViewById(R.id.type);
 //        name = myView.findViewById(R.id.name);
+        implementRecyclerViewClickListeners();
         return myView;
     }
 
@@ -212,19 +226,16 @@ public class VideosFragment extends Fragment {
 //                        intent.setDataAndType(Uri.parse(convertedFile.getPath()), "audio/*");
 //                        startActivity(intent);
 
-                        try
-                        {
+                        try {
                             Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW);
                             File file = new File(convertedFile.getAbsolutePath());
                             String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
                             String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-                            myIntent.setDataAndType(Uri.fromFile(file),mimetype);
+                            myIntent.setDataAndType(Uri.fromFile(file), mimetype);
                             startActivity(myIntent);
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             String data = e.getMessage();
-                            MyApp.showMassage(getContext(),data);
+                            MyApp.showMassage(getContext(), data);
                         }
                     }
                 }).create().show();
@@ -324,5 +335,168 @@ public class VideosFragment extends Fragment {
                 })
                 .show();
 
+    }
+
+    //Implement item click and long click over recycler view
+    private void implementRecyclerViewClickListeners() {
+        rv_videos.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), rv_videos, new RecyclerClick_Listener() {
+            @Override
+            public void onClick(View view, int position) {
+                //If ActionMode not null select item
+                if (mActionMode != null)
+                    onListItemSelect(position);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                //Select item on long click
+                onListItemSelect(position);
+            }
+        }));
+    }
+
+    private void onListItemSelect(int position) {
+        adapter.toggleSelection(position);//Toggle the selection
+
+        boolean hasCheckedItems = adapter.getSelectedCount() > 0;//Check if any items are already selected or not
+
+
+        if (hasCheckedItems && mActionMode == null)
+            // there are some selected items, start the actionMode
+            mActionMode = ((AppCompatActivity) getActivity())
+                    .startSupportActionMode(new Toolbar_ActionMode_Callback(getActivity(), adapter, arrayList, false));
+        else if (!hasCheckedItems && mActionMode != null)
+            // there no selected items, finish the actionMode
+            mActionMode.finish();
+
+        if (mActionMode != null)
+            //set action mode title on item selection
+            mActionMode.setTitle(String.valueOf(adapter
+                    .getSelectedCount()) + " selected");
+
+
+    }
+
+    public void setNullToActionMode() {
+        if (mActionMode != null)
+            mActionMode = null;
+    }
+
+    //Delete selected rows
+    public void deleteRows() {
+        SparseBooleanArray selected = adapter
+                .getSelectedIds();//Get selected ids
+
+        //Loop all selected ids
+        for (int i = (selected.size() - 1); i >= 0; i--) {
+            if (selected.valueAt(i)) {
+                File file = new File(arrayList.get(selected.keyAt(i)).getLocation());
+                boolean deleted = file.delete();
+                //If current id is selected remove the item via key
+                arrayList.remove(selected.keyAt(i));
+                adapter.notifyDataSetChanged();//notify adapter
+
+            }
+        }
+        Toast.makeText(getActivity(), selected.size() + " item deleted.", Toast.LENGTH_SHORT).show();//Show Toast
+        mActionMode.finish();//Finish action mode after use
+
+    }
+
+    public void shareFiles() {
+        SparseBooleanArray selected = adapter
+                .getSelectedIds();//Get selected ids
+        ArrayList<Uri> files = new ArrayList<Uri>();
+        //Loop all selected ids
+        for (int i = (selected.size() - 1); i >= 0; i--) {
+            if (selected.valueAt(i)) {
+                /* This example is sharing jpeg images. */
+                List<String> filesToSend = new ArrayList<>();
+                filesToSend.add(arrayList.get(selected.keyAt(i)).getLocation());
+
+                for (String path : filesToSend /* List of the files you want to send */) {
+                    File file = new File(path);
+                    Uri uri = Uri.fromFile(file);
+                    files.add(uri);
+                }
+
+            }
+        }
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Here are some files.");
+        intent.setType("video/*");
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
+        getActivity().startActivity(intent);
+//        Toast.makeText(getActivity(), selected.size() + " item deleted.", Toast.LENGTH_SHORT).show();//Show Toast
+        mActionMode.finish();//Finish action mode after use
+
+    }
+
+    public void renameFile(final int position, final DataModel dataModel) {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setTitle("Rename");
+        alertDialog.setMessage("Enter new file name");
+
+        final EditText input = new EditText(getActivity());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alertDialog.setView(input);
+//        alertDialog.setIcon(R.drawable.key);
+
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String password = input.getText().toString();
+                        if (password.isEmpty()) {
+                            MyApp.showMassage(getActivity(), "Enter new file name");
+                        } else {
+//        String name = new File(dataModel.getLocation()).getName();
+
+                            File file = new File(new File(dataModel.getLocation()).getParentFile().getAbsoluteFile(), dataModel.getName());
+
+                            /* File (or directory) with new name */
+                            File file2 = new File(new File(dataModel.getLocation()).getParentFile().getAbsoluteFile(), password+dataModel.getLocation().substring(dataModel.getLocation().lastIndexOf(".")));
+
+                            if (file2.exists()) {
+                                try {
+                                    throw new java.io.IOException("File already exists!");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                if (file.renameTo(file2)) {
+                                    arrayList.get(position).setName(password);
+                                    adapter.notifyDataSetChanged();
+                                }else{
+                                    MyApp.showMassage(getActivity(),"Cannot change the name");
+                                }
+
+                            }
+                        }
+                    }
+                });
+
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialog.show();
+    }
+
+    public void deleteFile(int layoutPosition, DataModel dataModel) {
+        String path = dataModel.getLocation();
+        if (new File(path).delete()) {
+            MyApp.showMassage(getActivity(), "Deleted");
+            arrayList.remove(layoutPosition);
+            adapter.notifyDataSetChanged();
+        }
     }
 }

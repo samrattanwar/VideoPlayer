@@ -138,7 +138,7 @@ public class MyApp extends Application {
         String pleaseWait = text;
         try {
             dialog = ProgressDialog.show(context, pleaseWait, "", true);
-            dialog.setCancelable(true);
+            dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
         } catch (Exception e) {
         }

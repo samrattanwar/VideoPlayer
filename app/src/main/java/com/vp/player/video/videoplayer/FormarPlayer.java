@@ -14,6 +14,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -25,6 +26,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.tml.sharethem.sender.SHAREthemActivity;
 import com.tml.sharethem.sender.SHAREthemService;
 import com.vp.player.video.videoplayer.Adapter.ViewPagerAdapter;
@@ -42,14 +47,16 @@ public class FormarPlayer extends AppCompatActivity
     private ViewPagerAdapter viewPagerAdapter;
     private String[] arrayselect;
     private String[] arrayselect2;
-
+    private AdView mAdView;
     private static final int MY_PERMISSION_REQUEST = 1;
+    InterstitialAd mInterstitialAd;
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formar_player);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -100,11 +107,81 @@ public class FormarPlayer extends AppCompatActivity
         } else {
 
         }
+
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        mAdView.setVisibility(View.GONE);
+
+//        mAdView.setAdUnitId(getString(R.string.banner_home_footer));
+
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                mAdView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdClosed() {
+                //Toast.makeText(getApplicationContext(), "Ad is closed!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Toast.makeText(getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                //Toast.makeText(getApplicationContext(), "Ad left application!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+        });
+        final AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("4F32629C31AC053EC5A69E481EF6CE75")
+                .build();
+        mAdView.loadAd(adRequest);
+
+        mInterstitialAd = new InterstitialAd(this);
+
+        // set the ad unit ID
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_full_screen));
+
+        mInterstitialAd.loadAd(adRequest);
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                showInterstitial();
+            }
+
+            @Override
+            public void onAdClosed() {
+                mInterstitialAd = new InterstitialAd(FormarPlayer.this);
+
+                // set the ad unit ID
+                mInterstitialAd.setAdUnitId(getString(R.string.interstitial_full_screen));
+
+                mInterstitialAd.loadAd(adRequest);
+                //Toast.makeText(getApplicationContext(), "Ad is closed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void showInterstitial() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
     }
 
     public
     FoldersFragment foldersFragment = new FoldersFragment();
-    private VideosFragment videosFragment = new VideosFragment();
+    public VideosFragment videosFragment = new VideosFragment();
     private MoreFragment moreFragment = new MoreFragment();
 
     private void setupUi() {
@@ -117,7 +194,7 @@ public class FormarPlayer extends AppCompatActivity
     }
 
 
-//    @Override
+    //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.formar_player, menu);
@@ -138,6 +215,9 @@ public class FormarPlayer extends AppCompatActivity
 //
 //        return super.onOptionsItemSelected(item);
 //    }
+    public Fragment getFragment(int pos) {
+        return videosFragment;
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
