@@ -28,6 +28,7 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.vp.player.video.videoplayer.Adapter.VideoConverterAdapter;
 import com.vp.player.video.videoplayer.Adapter.VideosShareAdapter;
+import com.vp.player.video.videoplayer.utils.ExceptionHandler;
 import com.vp.player.video.videoplayer.utils.SingleInstance;
 
 import java.io.File;
@@ -55,7 +56,7 @@ public class VideoConverterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_recycler);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -149,14 +150,18 @@ public class VideoConverterActivity extends AppCompatActivity {
                         } else {
                             if (isVideo(listFile[i])) {
                                 Log.e("Video file", listFile[i].getName());
-                                String currentTitle = listFile[i].getName();
-                                String currentLocation = listFile[i].getPath();
-                                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-                                retriever.setDataSource(VideoConverterActivity.this.getApplicationContext(), Uri.fromFile(listFile[i]));
-                                String currentDuration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                                try {
+                                    String currentTitle = listFile[i].getName();
+                                    String currentLocation = listFile[i].getPath();
+                                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                                    retriever.setDataSource(VideoConverterActivity.this.getApplicationContext(), Uri.fromFile(listFile[i]));
+                                    String currentDuration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
 
-                                retriever.release();
-                                arrayList.add(new DataModel2(currentTitle, currentLocation, currentDuration));
+                                    retriever.release();
+                                    arrayList.add(new DataModel2(currentTitle, currentLocation, currentDuration));
+                                } catch (RuntimeException e) {
+                                } catch (Exception e) {
+                                }
                             }
                         }
                     }
@@ -226,85 +231,85 @@ public class VideoConverterActivity extends AppCompatActivity {
                 setTitle("Select your audio format")
                 .setSingleChoiceItems(items, 0, null)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                                int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                                switch (selectedPosition) {
-                                    case 0:
-                                        MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to MP3");
-                                        AndroidAudioConverter.with(VideoConverterActivity.this)
-                                                // Your current audio file
-                                                .setFile(flacFile)
-                                                // Your desired audio format
-                                                .setFormat(AudioFormat.MP3)
-                                                // An callback to know when conversion is finished
-                                                .setCallback(callback)
-                                                // Start conversion
-                                                .convert();
-                                        break;
-                                    case 1:
-                                        MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to AAC");
-                                        AndroidAudioConverter.with(VideoConverterActivity.this)
-                                                // Your current audio file
-                                                .setFile(flacFile)
-                                                // Your desired audio format
-                                                .setFormat(AudioFormat.AAC)
-                                                // An callback to know when conversion is finished
-                                                .setCallback(callback)
-                                                // Start conversion
-                                                .convert();
-                                        break;
-                                    case 2:
-                                        MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to FLAC");
-                                        AndroidAudioConverter.with(VideoConverterActivity.this)
-                                                // Your current audio file
-                                                .setFile(flacFile)
-                                                // Your desired audio format
-                                                .setFormat(AudioFormat.FLAC)
-                                                // An callback to know when conversion is finished
-                                                .setCallback(callback)
-                                                // Start conversion
-                                                .convert();
-                                        break;
-                                    case 3:
-                                        MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to M4A");
-                                        AndroidAudioConverter.with(VideoConverterActivity.this)
-                                                // Your current audio file
-                                                .setFile(flacFile)
-                                                // Your desired audio format
-                                                .setFormat(AudioFormat.MP3)
-                                                // An callback to know when conversion is finished
-                                                .setCallback(callback)
-                                                // Start conversion
-                                                .convert();
-                                        break;
-                                    case 4:
-                                        MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to WAV");
-                                        AndroidAudioConverter.with(VideoConverterActivity.this)
-                                                // Your current audio file
-                                                .setFile(flacFile)
-                                                // Your desired audio format
-                                                .setFormat(AudioFormat.M4A)
-                                                // An callback to know when conversion is finished
-                                                .setCallback(callback)
-                                                // Start conversion
-                                                .convert();
-                                        break;
-                                    case 5:
-                                        MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to WMA");
-                                        AndroidAudioConverter.with(VideoConverterActivity.this)
-                                                // Your current audio file
-                                                .setFile(flacFile)
-                                                // Your desired audio format
-                                                .setFormat(AudioFormat.WMA)
-                                                // An callback to know when conversion is finished
-                                                .setCallback(callback)
-                                                // Start conversion
-                                                .convert();
-                                        break;
-                                }
-                            }
-                        })
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                        switch (selectedPosition) {
+                            case 0:
+                                MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to MP3");
+                                AndroidAudioConverter.with(VideoConverterActivity.this)
+                                        // Your current audio file
+                                        .setFile(flacFile)
+                                        // Your desired audio format
+                                        .setFormat(AudioFormat.MP3)
+                                        // An callback to know when conversion is finished
+                                        .setCallback(callback)
+                                        // Start conversion
+                                        .convert();
+                                break;
+                            case 1:
+                                MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to AAC");
+                                AndroidAudioConverter.with(VideoConverterActivity.this)
+                                        // Your current audio file
+                                        .setFile(flacFile)
+                                        // Your desired audio format
+                                        .setFormat(AudioFormat.AAC)
+                                        // An callback to know when conversion is finished
+                                        .setCallback(callback)
+                                        // Start conversion
+                                        .convert();
+                                break;
+                            case 2:
+                                MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to FLAC");
+                                AndroidAudioConverter.with(VideoConverterActivity.this)
+                                        // Your current audio file
+                                        .setFile(flacFile)
+                                        // Your desired audio format
+                                        .setFormat(AudioFormat.FLAC)
+                                        // An callback to know when conversion is finished
+                                        .setCallback(callback)
+                                        // Start conversion
+                                        .convert();
+                                break;
+                            case 3:
+                                MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to M4A");
+                                AndroidAudioConverter.with(VideoConverterActivity.this)
+                                        // Your current audio file
+                                        .setFile(flacFile)
+                                        // Your desired audio format
+                                        .setFormat(AudioFormat.MP3)
+                                        // An callback to know when conversion is finished
+                                        .setCallback(callback)
+                                        // Start conversion
+                                        .convert();
+                                break;
+                            case 4:
+                                MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to WAV");
+                                AndroidAudioConverter.with(VideoConverterActivity.this)
+                                        // Your current audio file
+                                        .setFile(flacFile)
+                                        // Your desired audio format
+                                        .setFormat(AudioFormat.M4A)
+                                        // An callback to know when conversion is finished
+                                        .setCallback(callback)
+                                        // Start conversion
+                                        .convert();
+                                break;
+                            case 5:
+                                MyApp.spinnerStart(VideoConverterActivity.this, "Converting video to WMA");
+                                AndroidAudioConverter.with(VideoConverterActivity.this)
+                                        // Your current audio file
+                                        .setFile(flacFile)
+                                        // Your desired audio format
+                                        .setFormat(AudioFormat.WMA)
+                                        // An callback to know when conversion is finished
+                                        .setCallback(callback)
+                                        // Start conversion
+                                        .convert();
+                                break;
+                        }
+                    }
+                })
                 .
 
                         show();

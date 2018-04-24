@@ -187,13 +187,15 @@ public class VideosFragment extends Fragment {
 //            listView.setAdapter(adapter);
                 }
 
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter = new VideosAdapter(VideosFragment.this, arrayList);
-                        rv_videos.setAdapter(adapter);
-                    }
-                });
+                try{
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter = new VideosAdapter(VideosFragment.this, arrayList);
+                            rv_videos.setAdapter(adapter);
+                        }
+                    });
+                }catch (Exception e){}
             }
 
 

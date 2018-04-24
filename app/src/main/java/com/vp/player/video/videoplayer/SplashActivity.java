@@ -1,6 +1,7 @@
 package com.vp.player.video.videoplayer;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -18,6 +19,8 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.vp.player.video.videoplayer.utils.ExceptionHandler;
+
 public class SplashActivity extends AppCompatActivity {
 
     Animation animZoomIn;
@@ -25,6 +28,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_splash);
         ImageView image = findViewById(R.id.image);
         RotateAnimation rotate = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -36,6 +40,20 @@ public class SplashActivity extends AppCompatActivity {
         image.startAnimation(animZoomIn);
 //        image.startAnimation(rotate);
         // set animation listener
+
+
+        String crash = getIntent()
+                .getStringExtra(ExceptionHandler.CRASH_REPORT);
+
+        if (crash == null) {
+            startSplash();
+        } else {
+            showCrashDialog(crash);
+        }
+
+    }
+
+    private void startSplash(){
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -70,6 +88,9 @@ public class SplashActivity extends AppCompatActivity {
                 }, 1000);
             }
         }
+
+
+
     }
 
     @Override
@@ -100,5 +121,35 @@ public class SplashActivity extends AppCompatActivity {
                 return;
             }
         }
+    }
+
+    public void showCrashDialog(final String report) {
+        android.support.v7.app.AlertDialog.Builder b = new android.support.v7.app.AlertDialog.Builder(this);
+        b.setTitle("App Crashed");
+        b.setMessage("Oops! The app crashed due to below reason:\n\n" + report);
+
+        DialogInterface.OnClickListener ocl = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == DialogInterface.BUTTON_POSITIVE) {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/html");
+                    i.putExtra(Intent.EXTRA_EMAIL,
+                            new String[]{"myaiwsoft@gmail.com"});
+                    i.putExtra(Intent.EXTRA_TEXT, report);
+                    i.putExtra(Intent.EXTRA_SUBJECT, "App Crashed");
+                    startActivity(Intent.createChooser(i, "Send Mail via:"));
+//                    finish();
+                } else {
+                    startSplash();
+                }
+                dialog.dismiss();
+            }
+        };
+        b.setCancelable(false);
+        b.setPositiveButton("Send Report", ocl);
+        b.setNegativeButton("Restart", ocl);
+        b.create().show();
     }
 }

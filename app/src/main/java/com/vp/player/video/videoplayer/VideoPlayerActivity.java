@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.vp.player.video.videoplayer.BetterVideoPlayer.BetterVideoCallback;
 import com.vp.player.video.videoplayer.BetterVideoPlayer.BetterVideoPlayer;
+import com.vp.player.video.videoplayer.utils.ExceptionHandler;
 
 import java.io.File;
 
@@ -20,7 +21,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements BetterVide
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         player = findViewById(R.id.player);
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(

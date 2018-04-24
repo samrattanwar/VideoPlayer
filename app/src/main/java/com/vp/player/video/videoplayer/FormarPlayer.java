@@ -36,6 +36,7 @@ import com.vp.player.video.videoplayer.Adapter.ViewPagerAdapter;
 import com.vp.player.video.videoplayer.Fragments.FoldersFragment;
 import com.vp.player.video.videoplayer.Fragments.MoreFragment;
 import com.vp.player.video.videoplayer.Fragments.VideosFragment;
+import com.vp.player.video.videoplayer.utils.ExceptionHandler;
 
 import java.util.ArrayList;
 
@@ -55,6 +56,7 @@ public class FormarPlayer extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_formar_player);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

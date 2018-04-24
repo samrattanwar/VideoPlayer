@@ -50,6 +50,7 @@ import com.vp.player.video.videoplayer.Fragments.FilesFragment;
 import com.vp.player.video.videoplayer.Fragments.ImagesFragment;
 import com.vp.player.video.videoplayer.Fragments.MusicFragment;
 import com.vp.player.video.videoplayer.Fragments.VideoShareFragment;
+import com.vp.player.video.videoplayer.utils.ExceptionHandler;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -92,6 +93,7 @@ public class ShareFiles1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_share_files1);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("File Share");

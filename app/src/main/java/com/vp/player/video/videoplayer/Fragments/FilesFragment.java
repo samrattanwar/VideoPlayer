@@ -68,6 +68,9 @@ public class FilesFragment extends Fragment {
                 return true;
             }
         });
+
+//        String ss = null;
+//        int length = ss.length();
         return myView;
     }
 

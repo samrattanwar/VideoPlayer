@@ -202,14 +202,16 @@ public class VideoShareFragment extends Fragment {
                         } else {
                             if (isVideo(listFile[i])) {
                                 Log.e("Video file", listFile[i].getName());
-                                String currentTitle = listFile[i].getName();
-                                String currentLocation = listFile[i].getPath();
-                                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-                                retriever.setDataSource(getActivity().getApplicationContext(), Uri.fromFile(listFile[i]));
-                                String currentDuration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                                try{
+                                    String currentTitle = listFile[i].getName();
+                                    String currentLocation = listFile[i].getPath();
+                                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                                    retriever.setDataSource(getActivity().getApplicationContext(), Uri.fromFile(listFile[i]));
+                                    String currentDuration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
 
-                                retriever.release();
-                                arrayList.add(new DataModel2(currentTitle, currentLocation, currentDuration));
+                                    retriever.release();
+                                    arrayList.add(new DataModel2(currentTitle, currentLocation, currentDuration));
+                                }catch (Exception e){}
                             }
                         }
                     }
